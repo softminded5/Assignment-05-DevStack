@@ -14,6 +14,29 @@ import TechnologyList from "./components/TechnologyList";
 
 function App() {
   const [technologies, setTechnologies] = useState<Technology[]>([]);
+  const [selectedTechnologies, setSelectedTechnologies] = useState<Technology[]>([]);
+
+  const handleAddTechnology = (technology: Technology) => {
+    setSelectedTechnologies((current) => {
+      if (current.some((item) => item.id === technology.id)) {
+        return current;
+      }
+
+      return [...current, technology];
+    });
+  }
+
+  const handleRemoveTechnology = (technologyId: string) => {
+    setSelectedTechnologies((current) =>
+      current.filter((technology) => technology.id !== technologyId)
+    );
+  };
+
+  const handleRemoveAll = () => {
+    setSelectedTechnologies([]);
+  };
+
+
 
   useEffect(() => {
     const fetchTechnologies = async () => {
@@ -40,7 +63,12 @@ function App() {
     <>
       <Nav />
       <Ban />
-      <TechnologyList technologies={technologies} />
+      <TechnologyList technologies={technologies}
+        selectedTechnologies={selectedTechnologies}
+        onAdd={handleAddTechnology}
+        onRemove={handleRemoveTechnology}
+        onRemoveAll={handleRemoveAll}
+      />
 
     </>
   )
