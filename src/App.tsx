@@ -3,6 +3,8 @@ import Nav from "./components/Nav"
 import { useEffect, useState } from "react";
 import type { Technology } from "./types/Technology";
 import TechnologyList from "./components/TechnologyList";
+import Toast from "./components/Toast";
+import { toast } from "react-toastify";
 
 
 
@@ -17,25 +19,59 @@ function App() {
   const [selectedTechnologies, setSelectedTechnologies] = useState<Technology[]>([]);
 
   const handleAddTechnology = (technology: Technology) => {
-    setSelectedTechnologies((current) => {
-      if (current.some((item) => item.id === technology.id)) {
-        return current;
-      }
+    const alreadySelected = selectedTechnologies.some(
+      (item) => item.id === technology.id
+    );
 
-      return [...current, technology];
+    if (alreadySelected) {
+      toast.warning(
+        `${technology.name} is already in your stack`
+      ); return;
+    }
+
+    const replacedTechnology = selectedTechnologies.find(
+      (item) => item.category === technology.category
+    );
+
+    if (replacedTechnology) {
+      toast.info(
+        `${replacedTechnology.name} replaced by ${technology.name}`
+      );
+    } else {
+      toast.success(
+        `${technology.name} added to your stack`
+      );
+    }
+
+    setSelectedTechnologies((current) => {
+      const filtered = current.filter(
+        (item) => item.category !== technology.category
+      );
+
+      return [...filtered, technology];
     });
-  }
+  };
+
 
   const handleRemoveTechnology = (technologyId: string) => {
+    const technology = selectedTechnologies.find(
+      (item) => item.id === technologyId
+    );
+
+    if (technology) {
+      toast.error(`${technology.name} removed from your stack`);
+    }
+
     setSelectedTechnologies((current) =>
-      current.filter((technology) => technology.id !== technologyId)
+      current.filter((item) => item.id !== technologyId)
     );
   };
 
+
   const handleRemoveAll = () => {
     setSelectedTechnologies([]);
+    toast.success("All technologies removed from your stack");
   };
-
 
 
   useEffect(() => {
@@ -69,6 +105,8 @@ function App() {
         onRemove={handleRemoveTechnology}
         onRemoveAll={handleRemoveAll}
       />
+      <Toast />
+
 
     </>
   )
