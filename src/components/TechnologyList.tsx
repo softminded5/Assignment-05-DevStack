@@ -25,6 +25,9 @@ function TechnologyList({ technologies, selectedTechnologies, onAdd, onRemove, o
                             key={technology.id}
                             technology={technology}
                             onAdd={onAdd}
+                            isSelected={selectedTechnologies.some(
+                                (item) => item.id === technology.id
+                            )}
                         />
                     ))}
 

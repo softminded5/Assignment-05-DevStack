@@ -3,9 +3,10 @@ import type { Technology } from "../types/Technology";
 type TechnologyCardProps = {
     technology: Technology;
     onAdd: (technology: Technology) => void;
+    isSelected: boolean;
 };
 
-function TechnologyCard({ technology, onAdd }: TechnologyCardProps) {
+function TechnologyCard({ technology, onAdd, isSelected }: TechnologyCardProps) {
     return (
         <div className="flex h-full flex-col rounded-2xl border border-gray-200 bg-white p-5 shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
             <div className="mb-5 flex items-center justify-between">
@@ -42,10 +43,10 @@ function TechnologyCard({ technology, onAdd }: TechnologyCardProps) {
 
             <button
                 type="button"
-                className="mt-5 w-full rounded-lg bg-gray-900 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-gray-700"
+                className="bg-linear-to-r from-orange-500 to-pink-600 text-white text-[15px] px-3 py-1.5 rounded-md hover:bg-gray-900"
                 onClick={() => onAdd(technology)}
             >
-                Add to Stack
+                {isSelected ? "✓ Added to Stack" : "Add to Stack"}
             </button>
         </div>
     );
