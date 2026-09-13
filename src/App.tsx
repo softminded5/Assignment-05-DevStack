@@ -5,6 +5,7 @@ import type { Technology } from "./types/Technology";
 import TechnologyList from "./components/TechnologyList";
 import Toast from "./components/Toast";
 import { toast } from "react-toastify";
+import Footer from "./components/Footer";
 
 
 
@@ -106,6 +107,8 @@ function App() {
         onRemoveAll={handleRemoveAll}
       />
       <Toast />
+      
+      <Footer/>
 
 
     </>
