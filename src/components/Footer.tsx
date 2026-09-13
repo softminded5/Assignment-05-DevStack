@@ -14,9 +14,9 @@ const Footer = () => {
                     
 
                     <div className="flex space-x-3 ">
-                        <a href="" className="hover:text-red-600">GitHub</a>
-                        <a href="" className="hover:text-red-600">Twitter</a>
-                        <a href="" className="hover:text-red-600">LinkedIn</a>
+                        <a href="https://github.com/" className="hover:text-red-600">GitHub</a>
+                        <a href="https://x.com/" className="hover:text-red-600">Twitter</a>
+                        <a href="https://www.linkedin.com/" className="hover:text-red-600">LinkedIn</a>
                     </div>
                 </div>
                 <div className="col-span-1 flex flex-col">
