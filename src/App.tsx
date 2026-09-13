@@ -1,6 +1,6 @@
 import Ban from "./components/Ban"
 import Nav from "./components/Nav"
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import type { Technology } from "./types/Technology";
 import TechnologyList from "./components/TechnologyList";
 import Toast from "./components/Toast";
@@ -77,40 +77,28 @@ function App() {
 
   useEffect(() => {
     const fetchTechnologies = async () => {
-      try {
-        const response = await fetch("/technologies.json");
-
-        if (!response.ok) {
-          throw new Error("Failed to fetch technologies");
-        }
-
-        const data = await response.json();
-
-        setTechnologies(data);
-      } catch (error) {
-        console.error("Error fetching technologies:", error);
-      }
+      const response = await fetch("/technologies.json");
+      const data = await response.json();
+      setTechnologies(data);
     };
-
     fetchTechnologies();
   }, []);
 
 
   return (
     <>
+    <Suspense fallback={<h1>Loading technologies...</h1>}>
       <Nav />
-      <Ban />
-      <TechnologyList technologies={technologies}
-        selectedTechnologies={selectedTechnologies}
-        onAdd={handleAddTechnology}
-        onRemove={handleRemoveTechnology}
-        onRemoveAll={handleRemoveAll}
-      />
+      <Ban />     
+        <TechnologyList technologies={technologies}
+          selectedTechnologies={selectedTechnologies}
+          onAdd={handleAddTechnology}
+          onRemove={handleRemoveTechnology}
+          onRemoveAll={handleRemoveAll}
+        />     
       <Toast />
-      
-      <Footer/>
-
-
+      <Footer />
+    </Suspense>
     </>
   )
 }
